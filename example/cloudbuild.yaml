@@ -1,9 +1,9 @@
 timeout: "900"
 steps:
-  - name: gcr.io/angstwad-gcbcw/gcbcw
+  - name: gcr.io/logicalphase/gcbcw
     args: ["init"]
 
-  - name: gcr.io/angstwad-gcbcw/gcbcw
+  - name: gcr.io/logicalphase/gcbcw
     entrypoint: gcbcw
     # Notice that the command below uses variable substitution to inject the requisite project and build IDs
     # For more information, see: https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
