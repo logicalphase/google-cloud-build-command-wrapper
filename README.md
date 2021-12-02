@@ -1,6 +1,19 @@
+
+
 # Google Cloud Build Command Wrapper
 
-This is a thin command wrapper for use inside a Google Cloud Build step. 
+This is a thin command wrapper for use inside a Google Cloud Build step written in Go.
+It can be especially useful when running large cloud builds using Terraform to prevent Cloud Build container force-terminations, but will work with any Cloud Build. 
+
+## Authors
+
+John Teague <john@logicalphase.com>
+Paul Durivage <durivage@google.com>
+
+## Version 
+
+1.0.2 
+Tested up to Go v1.17.3
 
 ## Use Case
 
@@ -23,7 +36,7 @@ Google Cloud Builds have a timeout value, which by default is (currently) 10 min
  Building for Cloud Build:
  
 ```
-GOOS=linux GOARCH=amd64 go build -o gcbcw github.com/angstwad/google-cloud-build-command-wrapper
+GOOS=linux GOARCH=amd64 go build -o gcbcw github.com/logicalphase/google-cloud-build-command-wrapper
 ```
 
 Cloud Build [steps](https://cloud.google.com/cloud-build/docs/build-config#build_steps) are simply container image tags, so to use it, you'll need to drop the compiled binary inside a container image and push it to a registry of your choice.  Since the canonical use case is in conjunction with Terraform, we'll just need a `Dockerfile` that drops the binary in a [Terraform image](https://hub.docker.com/r/hashicorp/terraform/):
@@ -37,9 +50,9 @@ COPY gcbcw /usr/local/bin/gcbcw
 Build the `Dockerfile`.  In the below example, I'm building with a tag to ship this container image to a [Google Container Registry](https://cloud.google.com/container-registry/) repo in a GCP project under my control.
 
 ```bash
-docker build -t gcr.io/angstwad-gcbcw/gcbcw:latest
+docker build -t gcr.io/logicalphase-gcbcw/gcbcw:latest
 
-docker push gcr.io/angstwad-gcbcw/gcbcw:latest
+docker push gcr.io/logicalphase-gcbcw/gcbcw:latest
 ```
 
 Last, use the image in your Cloud Build [configuration](https://cloud.google.com/cloud-build/docs/build-config). An [example](example/cloudbuild.yaml) has been provided.  Because Hashicorp's Terraform image has been defined with a custom `entrypoint`, you will need to override this in your build config with the [entrypoint](https://cloud.google.com/cloud-build/docs/build-config#entrypoint) flag.  Below I have provided an example build step which wraps the command `terraform apply -auto-approve`, signaling Terraform 2 minutes before the build job's scheduled timeout.
@@ -47,7 +60,7 @@ Last, use the image in your Cloud Build [configuration](https://cloud.google.com
 The below example uses [default variable substitutions](https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions) to populate the required project and build ID parameters.
 
 ```yaml
-- name: gcr.io/angstwad-gcbcw/gcbcw
+- name: gcr.io/logicalphase-gcbcw/gcbcw
   entrypoint: gcbcw
   args: ["--before-timeout", "2m", "$PROJECT_ID", "$BUILD_ID", "--", "terraform", "apply", "-auto-approve"]
 ```

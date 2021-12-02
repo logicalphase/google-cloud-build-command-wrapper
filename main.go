@@ -1,4 +1,6 @@
-// Copyright 2020 Google LLC, Paul Durivage <durivage@google.com>
+// Copyright 2020 Google LLC,
+// Paul Durivage <durivage@google.com>
+// John Teague <john@logicalphase.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +17,9 @@
 package main
 
 import (
-	cloudbuild "cloud.google.com/go/cloudbuild/apiv1"
 	"context"
 	"errors"
 	"fmt"
-	"github.com/spf13/pflag"
-	cloudbuildpb "google.golang.org/genproto/googleapis/devtools/cloudbuild/v1"
 	"log"
 	"os"
 	"os/exec"
@@ -28,6 +27,10 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	cloudbuild "cloud.google.com/go/cloudbuild/apiv1"
+	"github.com/spf13/pflag"
+	cloudbuildpb "google.golang.org/genproto/googleapis/devtools/cloudbuild/v1"
 )
 
 var (
