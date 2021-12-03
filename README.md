@@ -1,4 +1,4 @@
-
+[![SL Scan](https://github.com/logicalphase/google-cloud-build-command-wrapper/actions/workflows/shiftleft-analysis.yml/badge.svg)](https://github.com/logicalphase/google-cloud-build-command-wrapper/actions/workflows/shiftleft-analysis.yml)
 
 # Google Cloud Build Command Wrapper
 
