@@ -31,7 +31,7 @@ Google Cloud Builds have a timeout value, which by default is (currently) 10 min
 
 ## Use
 
-**Note:** This has been tested to target Go 1.14 and has not been tested with any version previously released.
+**Note:** This has been tested to target Go 1.17 and has not been tested with any version previously released.
 
  Building for Cloud Build:
  
@@ -60,7 +60,7 @@ Last, use the image in your Cloud Build [configuration](https://cloud.google.com
 The below example uses [default variable substitutions](https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values#using_default_substitutions) to populate the required project and build ID parameters.
 
 ```yaml
-- name: gcr.io/logicalphase-gcbcw/gcbcw
+- name: gcr.io/logicalphase/gcbcw
   entrypoint: gcbcw
   args: ["--before-timeout", "2m", "$PROJECT_ID", "$BUILD_ID", "--", "terraform", "apply", "-auto-approve"]
 ```
